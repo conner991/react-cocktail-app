@@ -1,0 +1,18 @@
+FROM node as build
+WORKDIR /app
+COPY package.json .
+
+# ARG NODE_ENV
+# RUN if [ "$NODE_ENV" = "development" ]; \
+#         then npm install; \
+#         else npm install --only=production; \
+#         fi
+
+RUN npm install
+COPY . .
+ARG REACT_APP_NAME
+ENV REACT_APP_NAME=${REACT_APP_NAME}
+RUN npm run build
+
+FROM nginx
+COPY --from=build /app/build /usr/share/nginx/html

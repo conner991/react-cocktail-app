@@ -1,8 +1,10 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import { render, screen } from "@testing-library/react"
+import { BrowserRouter as Router } from 'react-router-dom';
 import userEvent from "@testing-library/user-event"
 import Cocktail from "./Cocktail"
+import App from "../App";
 
 
 
@@ -27,14 +29,21 @@ import Cocktail from "./Cocktail"
 describe('Home Page Drink Card', () => {
 
     it('renders image', async () => {
-        render(<Cocktail image={{id: '5'}} name={{id: '5'}} id={{id: '5'}} info={{id: '5'}} glass={{id: '5'}}/>);    
-    
-        expect(await screen.findByRole('button', {name: /pay/i})).toBeDisabled()
-    
-        userEvent.type(screen.getByPlaceholderText(/amount/i), '50')
-        userEvent.type(screen.getByPlaceholderText(/add a note/i), 'dinner')
-    
-        expect(await screen.findByRole('button', {name: /pay/i})).toBeEnabled()
+        const div = document.createElement("div")
+        ReactDOM.render(
+            <Router>
+              <App />
+            </Router>,
+            div
+              );
+              ReactDOM.unmountComponentAtNode(div);    
+
+    })
+
+    it('renders button correctly', async () => {
+        const div = document.createElement("div")
+        render(<Cocktail/>, div);    
+
     })
 
 })
